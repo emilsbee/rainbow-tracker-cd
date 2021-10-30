@@ -17,18 +17,18 @@ if (!shell.which("yarn")) {
 const app = new Koa();
 const mainRouter = new Router()
 
-app.use(async ctx => {
+app.use(async (ctx, next) => {
     console.log(ctx.request.url)
     await next()
 })
 
-mainRouter.get("/", async ctx => {
+mainRouter.get("/github-webhook", async ctx => {
     console.log(ctx.request.body)
 
     ctx.status = 200
 })
 
-mainRouter.post("/", async ctx => {
+mainRouter.post("/github-webhook", async ctx => {
     console.log(ctx.request.body)
 
     ctx.status = 200
