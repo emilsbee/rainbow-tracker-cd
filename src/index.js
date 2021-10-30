@@ -17,8 +17,16 @@ if (!shell.which("yarn")) {
 const app = new Koa();
 const mainRouter = new Router()
 
+mainRouter.get("/", async ctx => {
+    console.log(ctx.request.body)
+
+    ctx.status = 200
+})
+
 mainRouter.post("/", async ctx => {
-    console.log(ctx.body)
+    console.log(ctx.request.body)
+
+    ctx.status = 200
     // const changeDir = shell.cd("../rainbow-tracker-backend")
     // if (changeDir.code === 1) {
     //     throw new Error(changeDir.stderr)
@@ -53,8 +61,6 @@ mainRouter.post("/", async ctx => {
     // if (restartRainbowService.code === 1) {
     //     throw new Error(restartRainbowService.stderr)
     // }
-
-    ctx.status = 200
 });
 
 app.use(mainRouter.routes()).use(mainRouter.allowedMethods())
