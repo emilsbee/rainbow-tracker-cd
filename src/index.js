@@ -23,6 +23,7 @@ app.use(bodyParser());
 const mainRouter = new Router()
 
 mainRouter.post("/github-webhook", async ctx => {
+    console.log(ctx.request.body.ref)
     if (
         ctx.request.body && ctx.request.headers["x-hub-signature-256"] &&
         await new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.request.body, ctx.request.headers["x-hub-signature-256"])
