@@ -15,7 +15,7 @@ if (!shell.which("yarn")) {
 const app = new Koa();
 
 app.use(async ctx => {
-    const changeDir = shell.cd("../rainbow-tracker-backends")
+    const changeDir = shell.cd("../rainbow-tracker-backend")
     if (changeDir.code === 1) {
         throw new Error(changeDir.stderr)
     }
