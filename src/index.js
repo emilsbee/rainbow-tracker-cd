@@ -21,6 +21,12 @@ app.use(async (ctx, next) => {
     await next()
 })
 
+mainRouter.get("/github-webhook", async ctx => {
+    console.log(ctx.request.body)
+
+    ctx.status = 200
+})
+
 mainRouter.post("/github-webhook", async ctx => {
     console.log(ctx.request.body)
 
