@@ -3,3 +3,4 @@ node_modules/
 **/.idea/tasks.xml
 .idea/
 .vscode/
+.env
