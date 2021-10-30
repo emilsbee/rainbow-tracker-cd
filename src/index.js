@@ -30,7 +30,7 @@ app.use(async (ctx, next) => {
 
 mainRouter.post("/github-webhook", async ctx => {
     console.log(process.env["GitHubWebhookSecret"])
-    if (await new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.body, ctx.headers["x-hub-signature-256"])) {
+    if (await new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.request.body, ctx.request.headers["x-hub-signature-256"])) {
         console.log("Good")
     } else {
         console.log("Bad")
