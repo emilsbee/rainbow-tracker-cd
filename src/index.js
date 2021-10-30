@@ -27,52 +27,46 @@ mainRouter.post("/github-webhook", async ctx => {
         ctx.request.body && ctx.request.headers["x-hub-signature-256"] &&
         await new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.request.body, ctx.request.headers["x-hub-signature-256"])
     ) {
-        console.log("Good")
+        ctx.status = 200
+
+        const changeDir = shell.cd("../rainbow-tracker-backend")
+        if (changeDir.code === 1) {
+            throw new Error(changeDir.stderr)
+        }
+
+        const pullChanges = shell.exec("git pull")
+        if (pullChanges.code === 1) {
+            throw new Error(pullChanges.stderr)
+        }
+
+        const removeNodeModules = shell.exec("rm -rf node_modules")
+        if (removeNodeModules.code === 1) {
+            throw new Error(removeNodeModules.stderr)
+        }
+
+        const installPackages = shell.exec("yarn install")
+        if (installPackages.code === 1) {
+            throw new Error(installPackages.stderr)
+        }
+
+        const buildBackend = shell.exec("yarn build")
+        if (buildBackend.code === 1) {
+            throw new Error(buildBackend.stderr)
+        }
+
+        const editBuildIndex = shell.exec("sed -i '1i#!/usr/bin/env node\' dist/index.js")
+        if (editBuildIndex.code === 1) {
+            throw new Error(editBuildIndex.stderr)
+        }
+
+        const restartRainbowService = shell.exec("sudo systemctl restart rainbow-tracker")
+        if (restartRainbowService.code === 1) {
+            throw new Error(restartRainbowService.stderr)
+        }
     } else {
-        console.log("Bad")
+        ctx.status = 401
     }
-
-    ctx.status = 201
-    // const changeDir = shell.cd("../rainbow-tracker-backend")
-    // if (changeDir.code === 1) {
-    //     throw new Error(changeDir.stderr)
-    // }
-    //
-    // const pullChanges = shell.exec("git pull")
-    // if (pullChanges.code === 1) {
-    //     throw new Error(pullChanges.stderr)
-    // }
-    //
-    // const removeNodeModules = shell.exec("rm -rf node_modules")
-    // if (removeNodeModules.code === 1) {
-    //     throw new Error(removeNodeModules.stderr)
-    // }
-    //
-    // const installPackages = shell.exec("yarn install")
-    // if (installPackages.code === 1) {
-    //     throw new Error(installPackages.stderr)
-    // }
-    //
-    // const buildBackend = shell.exec("yarn build")
-    // if (buildBackend.code === 1) {
-    //     throw new Error(buildBackend.stderr)
-    // }
-    //
-    // const editBuildIndex = shell.exec("sed -i '1i#!/usr/bin/env node\' dist/index.js")
-    // if (editBuildIndex.code === 1) {
-    //     throw new Error(editBuildIndex.stderr)
-    // }
-    //
-    // const restartRainbowService = shell.exec("sudo systemctl restart rainbow-tracker")
-    // if (restartRainbowService.code === 1) {
-    //     throw new Error(restartRainbowService.stderr)
-    // }
 });
-
-
-mainRouter.get("/github-webhook", ctx => {
-    ctx.status = 200
-})
 
 app.use(mainRouter.routes()).use(mainRouter.allowedMethods())
 
