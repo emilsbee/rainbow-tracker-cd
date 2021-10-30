@@ -24,6 +24,7 @@ app.use(async (ctx, next) => {
 })
 
 mainRouter.post("/github-webhook", ctx => {
+    console.log(ctx.request.body)
     ctx.status = 201
     // const changeDir = shell.cd("../rainbow-tracker-backend")
     // if (changeDir.code === 1) {
