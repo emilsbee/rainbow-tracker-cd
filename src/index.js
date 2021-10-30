@@ -3,6 +3,7 @@ require('dotenv').config()
 const Koa = require("koa");
 const shell = require('shelljs');
 const Router = require("koa-router")
+const bodyParser = require('koa-bodyparser')
 
 if (!shell.which('git')) {
     shell.echo('Sorry, this script requires git');
