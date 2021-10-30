@@ -4,6 +4,7 @@ const Koa = require("koa");
 const shell = require('shelljs');
 const Router = require("koa-router")
 const bodyParser = require('koa-bodyparser')
+const {Webhooks} = require("@octokit/webhooks")
 
 if (!shell.which('git')) {
     shell.echo('Sorry, this script requires git');
@@ -27,8 +28,14 @@ app.use(async (ctx, next) => {
     await next()
 })
 
-mainRouter.post("/github-webhook", ctx => {
-    console.log(ctx.request.body)
+mainRouter.post("/github-webhook", async ctx => {
+
+    if (new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.body, ctx.headers["x-hub-signature-256"])) {
+        console.log("Good")
+    } else {
+        console.log("Bad")
+    }
+
     ctx.status = 201
     // const changeDir = shell.cd("../rainbow-tracker-backend")
     // if (changeDir.code === 1) {
