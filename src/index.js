@@ -24,7 +24,7 @@ app.use(bodyParser());
 const mainRouter = new Router()
 
 const buildAndDeploy = () => {
-    const changeDir = shell.cd(`echo ${process.env.password} | sudo -S ../rainbow-tracker-backend`)
+    const changeDir = shell.cd(`cd ../rainbow-tracker-backend`)
     if (changeDir.code === 1) {
         throw new Error(changeDir.stderr)
     }
