@@ -22,12 +22,6 @@ app.use(async (ctx, next) => {
     await next()
 })
 
-
-mainRouter.get("/github-webhook", ctx => {
-    ctx.status = 200
-})
-
-
 mainRouter.post("/github-webhook", ctx => {
     ctx.status = 201
     // const changeDir = shell.cd("../rainbow-tracker-backend")
@@ -65,7 +59,12 @@ mainRouter.post("/github-webhook", ctx => {
     //     throw new Error(restartRainbowService.stderr)
     // }
 });
-console.log(mainRouter.routes().router.stack)
+
+
+mainRouter.get("/github-webhook", ctx => {
+    ctx.status = 200
+})
+
 app.use(mainRouter.routes()).use(mainRouter.allowedMethods())
 
 /**
