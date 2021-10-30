@@ -19,6 +19,7 @@ const mainRouter = new Router()
 
 app.use(async (ctx, next) => {
     console.log(ctx.request.url)
+    console.log(ctx.request.method)
     await next()
 })
 
