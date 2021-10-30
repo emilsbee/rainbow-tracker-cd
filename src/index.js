@@ -18,6 +18,7 @@ const app = new Koa();
 const mainRouter = new Router()
 
 app.use(async (ctx, next) => {
+    console.log(ctx.request.url)
     await next()
 })
 
