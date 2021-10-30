@@ -22,7 +22,7 @@ app.use(bodyParser());
 
 const mainRouter = new Router()
 
-const foo = () => {
+const buildAndDeploy = () => {
     const changeDir = shell.cd("../rainbow-tracker-backend")
     if (changeDir.code === 1) {
         throw new Error(changeDir.stderr)
@@ -66,7 +66,7 @@ mainRouter.post("/github-webhook", async ctx => {
         await new Webhooks({secret: process.env["GitHubWebhookSecret"],}).verify(ctx.request.body, ctx.request.headers["x-hub-signature-256"]) &&
         ctx.request.body.ref === "refs/heads/main"
     ) {
-        process.nextTick(foo)
+        process.nextTick(buildAndDeploy)
     }
 });
 
