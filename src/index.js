@@ -15,6 +15,9 @@ if (!shell.which("yarn")) {
 }
 
 const app = new Koa();
+
+app.use(bodyParser());
+
 const mainRouter = new Router()
 
 app.use(async (ctx, next) => {
