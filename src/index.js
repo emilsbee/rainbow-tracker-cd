@@ -24,37 +24,37 @@ app.use(bodyParser());
 const mainRouter = new Router()
 
 const buildAndDeploy = () => {
-    const changeDir = shell.cd("../rainbow-tracker-backend")
+    const changeDir = shell.cd(`echo ${process.env.password} | sudo -S ../rainbow-tracker-backend`)
     if (changeDir.code === 1) {
         throw new Error(changeDir.stderr)
     }
 
-    const pullChanges = shell.exec("git pull")
+    const pullChanges = shell.exec(`echo ${process.env.password} | sudo -S git pull`)
     if (pullChanges.code === 1) {
         throw new Error(pullChanges.stderr)
     }
 
-    const removeNodeModules = shell.exec("sudo rm -rf node_modules")
+    const removeNodeModules = shell.exec(`echo ${process.env.password} | sudo -S rm -rf node_modules`)
     if (removeNodeModules.code === 1) {
         throw new Error(removeNodeModules.stderr)
     }
 
-    const installPackages = shell.exec("yarn install")
+    const installPackages = shell.exec(`echo ${process.env.password} | sudo -S yarn install`)
     if (installPackages.code === 1) {
         throw new Error(installPackages.stderr)
     }
 
-    const buildBackend = shell.exec("yarn build")
+    const buildBackend = shell.exec(`echo ${process.env.password} | sudo -S yarn build`)
     if (buildBackend.code === 1) {
         throw new Error(buildBackend.stderr)
     }
 
-    const editBuildIndex = shell.exec("sudo sed -i '1i#!/usr/bin/env node\' dist/index.js")
+    const editBuildIndex = shell.exec(`echo ${process.env.password} | sudo -S sed -i '1i#!/usr/bin/env node\' dist/index.js`)
     if (editBuildIndex.code === 1) {
         throw new Error(editBuildIndex.stderr)
     }
 
-    const restartRainbowService = shell.exec("sudo systemctl restart rainbow-tracker")
+    const restartRainbowService = shell.exec(`echo ${process.env.password} | sudo -S systemctl restart rainbow-tracker`)
     if (restartRainbowService.code === 1) {
         throw new Error(restartRainbowService.stderr)
     }
