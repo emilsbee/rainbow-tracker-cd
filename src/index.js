@@ -17,6 +17,11 @@ if (!shell.which("yarn")) {
 const app = new Koa();
 const mainRouter = new Router()
 
+app.use(async ctx => {
+    console.log(ctx.request.url)
+    await next()
+})
+
 mainRouter.get("/", async ctx => {
     console.log(ctx.request.body)
 
