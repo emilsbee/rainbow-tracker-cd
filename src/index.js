@@ -17,8 +17,6 @@ if (!shell.which("yarn")) {
 const app = new Koa();
 const mainRouter = new Router()
 
-app.use(mainRouter.routes()).use(mainRouter.allowedMethods())
-
 mainRouter.post("/", async ctx => {
     console.log(ctx.body)
     // const changeDir = shell.cd("../rainbow-tracker-backend")
@@ -58,6 +56,8 @@ mainRouter.post("/", async ctx => {
 
     ctx.status = 200
 });
+
+app.use(mainRouter.routes()).use(mainRouter.allowedMethods())
 
 /**
  * Start server
