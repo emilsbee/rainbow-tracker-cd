@@ -1,0 +1,14 @@
+[Unit]
+Description=Rainbow tracker continuous deployment
+
+[Service]
+ExecStart=/home/emils/code/rainbow-tracker-cd/src/index.js
+Restart=always
+User=emils
+Group=emils
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/emils/code/rainbow-tracker-cd
+
+[Install]
+WantedBy=multi-user.target
