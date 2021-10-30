@@ -65,7 +65,7 @@ mainRouter.post("/github-webhook", async ctx => {
             throw new Error(restartRainbowService.stderr)
         }
     } else {
-        ctx.status = 401
+        ctx.status = 200
     }
 });
 
