@@ -34,7 +34,7 @@ const buildAndDeploy = () => {
         throw new Error(pullChanges.stderr)
     }
 
-    const removeNodeModules = shell.exec("rm -rf node_modules")
+    const removeNodeModules = shell.exec("sudo rm -rf node_modules")
     if (removeNodeModules.code === 1) {
         throw new Error(removeNodeModules.stderr)
     }
@@ -49,7 +49,7 @@ const buildAndDeploy = () => {
         throw new Error(buildBackend.stderr)
     }
 
-    const editBuildIndex = shell.exec("sed -i '1i#!/usr/bin/env node\' dist/index.js")
+    const editBuildIndex = shell.exec("sudo sed -i '1i#!/usr/bin/env node\' dist/index.js")
     if (editBuildIndex.code === 1) {
         throw new Error(editBuildIndex.stderr)
     }
