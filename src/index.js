@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // External imports
 require('dotenv').config()
 const Koa = require("koa");
